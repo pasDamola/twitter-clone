@@ -7,16 +7,7 @@
       :items4="items4"
       :drawer-props="drawer"
       @drawer-close="closeDrawer" />
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      flat
-      dark
-      color="dark"
-      app
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-    </v-app-bar>
+    <appbar-mobile @toggleDrawer="toggleDrawer" />
     <v-content>
       <v-container>
         <nuxt />
@@ -33,8 +24,9 @@
 
 <script>
 import NavbarMobile from '@/components/navbar-mobile';
+import AppbarMobile from '@/components/appbar-mobile';
 export default {
-  components: { NavbarMobile },
+  components: { NavbarMobile, AppbarMobile },
   data() {
     return {
       clipped: false,
@@ -107,6 +99,9 @@ export default {
   methods: {
     closeDrawer(e) {
       this.drawer = e;
+    },
+    toggleDrawer(e) {
+      this.drawer = !this.drawer;
     }
   }
 };

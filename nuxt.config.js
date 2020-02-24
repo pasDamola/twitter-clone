@@ -64,6 +64,7 @@ module.exports = {
       themes: {
         dark: {
           primary: colors.blue.darken2,
+          grey: 'rgb(47, 51, 54)',
           dark: '#000',
           blue: '#1da1f2',
           accent: colors.grey.darken3,
