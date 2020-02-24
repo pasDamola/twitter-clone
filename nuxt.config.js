@@ -1,4 +1,4 @@
-const colors = require('vuetify/es5/util/colors').default
+const colors = require('vuetify/es5/util/colors').default;
 
 module.exports = {
   mode: 'universal',
@@ -64,6 +64,8 @@ module.exports = {
       themes: {
         dark: {
           primary: colors.blue.darken2,
+          dark: '#000',
+          blue: '#1da1f2',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -81,7 +83,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   }
-}
+};

@@ -1,84 +1,27 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <navbar-mobile
+      :items="items"
+      :items2="items2"
+      :items3="items3"
+      :items4="items4"
+      :drawer-props="drawer"
+      @drawer-close="closeDrawer" />
     <v-app-bar
       :clipped-left="clipped"
       fixed
+      flat
+      dark
+      color="dark"
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-content>
       <v-container>
         <nuxt />
       </v-container>
     </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer
       :fixed="fixed"
       app
@@ -89,29 +32,88 @@
 </template>
 
 <script>
+import NavbarMobile from '@/components/navbar-mobile';
 export default {
-  data () {
+  components: { NavbarMobile },
+  data() {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
+      items2: [
+        {
+          icon: '/icons/ads.svg',
+          title: 'Twitter Ads',
+          to: '/#1'
+        },
+        {
+          icon: '/icons/analytics.svg',
+          title: 'Analytics',
+          to: '/#2'
+        }
+      ],
+      items3: [
+        {
+          icon: '/icons/settings.svg',
+          title: 'Settings and privacy',
+          to: '/#3'
+        },
+        {
+          icon: '/icons/help.svg',
+          title: 'Help center',
+          to: '/#4'
+        }
+      ],
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: '/icons/profile.svg',
+          title: 'Profile',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
+          icon: '/icons/topics.svg',
+          title: 'Topics',
           to: '/inspire'
+        },
+        {
+          icon: '/icons/lists.svg',
+          title: 'List',
+          to: '/#5'
+        },
+        {
+          icon: '/icons/bookmarks.svg',
+          title: 'Bookmarks',
+          to: '/#'
+        },
+        {
+          icon: '/icons/moments.svg',
+          title: 'Moments',
+          to: '/#',
+          divider: true
+        }
+      ],
+      items4: [
+        {
+          icon: '/icons/data.svg',
+          title: 'Data saver'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
+    };
+  },
+  methods: {
+    closeDrawer(e) {
+      this.drawer = e;
     }
   }
-}
+};
 </script>
+
+<style lang="scss">
+  .v-list-item--active.v-list-item.v-list-item--link.theme--dark {
+    background-color: #12151766;
+  }
+</style>
