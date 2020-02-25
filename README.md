@@ -1,6 +1,6 @@
 # twitter
 
-> A twitter clone built with rails
+> A twitter clone built with twitter
 
 ## Build Setup
 
