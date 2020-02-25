@@ -3,6 +3,7 @@
     v-model="drawer"
     fixed
     color="dark"
+    mobile-break-point="500"
     app
   >
     <template v-slot:prepend>
@@ -110,7 +111,7 @@
         <v-list-item-action>
           <v-switch
             v-model="switch1"
-          ></v-switch>
+          />
         </v-list-item-action>
       </v-list-item>
     </v-list>

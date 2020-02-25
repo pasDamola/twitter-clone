@@ -1,114 +1,64 @@
 <template>
-  <v-app dark>
-    <navbar-mobile
-      :items="items"
-      :items2="items2"
-      :items3="items3"
-      :items4="items4"
-      :drawer-props="drawer"
-      @drawer-close="closeDrawer" />
-    <appbar-mobile @toggleDrawer="toggleDrawer" />
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
-    <v-footer
-      :fixed="fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+  <v-app>
+    <mobile-layout v-if="isMobile" class="mobile-layout" />
+    <tablet-layout v-else-if="isTablet" class="tablet-layout" />
   </v-app>
 </template>
 
 <script>
-import NavbarMobile from '@/components/navbar-mobile';
-import AppbarMobile from '@/components/appbar-mobile';
+import MobileLayout from '@/layouts/mobile-layout';
+import TabletLayout from '@/layouts/tablet-layout';
 export default {
-  components: { NavbarMobile, AppbarMobile },
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items2: [
-        {
-          icon: '/icons/ads.svg',
-          title: 'Twitter Ads',
-          to: '/#1'
-        },
-        {
-          icon: '/icons/analytics.svg',
-          title: 'Analytics',
-          to: '/#2'
-        }
-      ],
-      items3: [
-        {
-          icon: '/icons/settings.svg',
-          title: 'Settings and privacy',
-          to: '/#3'
-        },
-        {
-          icon: '/icons/help.svg',
-          title: 'Help center',
-          to: '/#4'
-        }
-      ],
-      items: [
-        {
-          icon: '/icons/profile.svg',
-          title: 'Profile',
-          to: '/'
-        },
-        {
-          icon: '/icons/topics.svg',
-          title: 'Topics',
-          to: '/inspire'
-        },
-        {
-          icon: '/icons/lists.svg',
-          title: 'List',
-          to: '/#5'
-        },
-        {
-          icon: '/icons/bookmarks.svg',
-          title: 'Bookmarks',
-          to: '/#'
-        },
-        {
-          icon: '/icons/moments.svg',
-          title: 'Moments',
-          to: '/#',
-          divider: true
-        }
-      ],
-      items4: [
-        {
-          icon: '/icons/data.svg',
-          title: 'Data saver'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    };
+  components: { MobileLayout, TabletLayout },
+  data: () => ({
+    isMobile: false,
+    isTablet: false
+  }),
+  beforeMount() {
+    /* eslint-disable-next-line */
+    if (process.browser) {
+      window.addEventListener('resize', this.onResize);
+      window.onload = this.onLoad;
+    }
   },
   methods: {
-    closeDrawer(e) {
-      this.drawer = e;
+    onLoad(e) {
+      if (e.currentTarget.innerWidth < 500) {
+        this.isMobile = true;
+      } else if (e.currentTarget.innerWidth > 500 && e.currentTarget.innerWidth < 1005) {
+        this.isMobile = false;
+        this.isTablet = true;
+      }
     },
-    toggleDrawer(e) {
-      this.drawer = !this.drawer;
+    onResize(e) {
+      this.isMobile = e.target.innerWidth < 500;
+      this.isTablet = e.target.innerWidth > 500 && e.target.innerWidth < 1005;
+    }
+  },
+  beforeDestroy() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onResize);
     }
   }
 };
 </script>
 
-<style lang="scss">
-  .v-list-item--active.v-list-item.v-list-item--link.theme--dark {
-    background-color: #12151766;
-  }
+<style lang="scss" scoped>
+
+  // @media screen and (max-width: 500px) {
+  //   .tablet-layout {
+  //     display: none;
+  //     width: 0;
+  //   }
+  // }
+
+  // @media screen and (min-width: 500px) {
+  //   .mobile-layout {
+  //     display: none;
+  //   }
+
+  //   .tablet-layout {
+  //     display: block;
+  //   }
+  // }
 </style>

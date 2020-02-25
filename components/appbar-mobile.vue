@@ -8,7 +8,7 @@
     extension-height="2"
     app
   >
-    <v-avatar size="35" @click.stop="$emit('toggleDrawer')">
+    <v-avatar size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')">
       <img src="https://randomuser.me/api/portraits/women/81.jpg" alt="User image">
     </v-avatar>
     <v-toolbar-title class="mx-4">
@@ -34,4 +34,10 @@
       padding: 0;
     }
   }
+
+   @media screen and (min-width: 500px){
+      .hide-desktop {
+        display: none;
+      }
+    }
 </style>
