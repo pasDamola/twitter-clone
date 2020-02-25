@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
-    <navbar />
+    <navbar class="navbar-tab"/>
+    <navbar-desktop class="navbar-desktop"/>
     <appbar-mobile @toggleDrawer="toggleDrawer" />
     <v-content>
       <v-container>
@@ -13,10 +14,11 @@
 
 <script>
 import Navbar from '@/components/navbar-tablet';
+import NavbarDesktop from '@/components/navbar-desktop';
 import AppbarMobile from '@/components/appbar-mobile';
 import NavbarRight from '@/components/navbar-right';
 export default {
-  components: { Navbar, AppbarMobile, NavbarRight },
+  components: { Navbar, AppbarMobile, NavbarRight, NavbarDesktop },
   data() {
     return {
       clipped: false,
@@ -96,3 +98,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  @media screen and (max-width: 1005){
+    .navbar-desktop {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 1005){
+    .navbar-tab {
+      display: none;
+    }
+  }
+</style>
