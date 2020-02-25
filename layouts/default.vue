@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="twitter-app">
     <mobile-layout v-if="isMobile" class="mobile-layout" />
     <tablet-layout v-else-if="isTablet" class="tablet-layout" />
     <desktop-layout v-else />
@@ -46,20 +46,4 @@ export default {
 
 <style lang="scss" scoped>
 
-  // @media screen and (max-width: 500px) {
-  //   .tablet-layout {
-  //     display: none;
-  //     width: 0;
-  //   }
-  // }
-
-  // @media screen and (min-width: 500px) {
-  //   .mobile-layout {
-  //     display: none;
-  //   }
-
-  //   .tablet-layout {
-  //     display: block;
-  //   }
-  // }
 </style>
