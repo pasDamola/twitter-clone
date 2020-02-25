@@ -10,11 +10,12 @@
       @drawer-close="closeDrawer"
     />
     <appbar-mobile @toggleDrawer="toggleDrawer" />
-    <v-content>
+    <v-content class="content">
       <v-container>
         <nuxt />
       </v-container>
     </v-content>
+    <v-divider />
     <footer-mobile class="mobile-sidenav" />
   </v-app>
 </template>
@@ -104,3 +105,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .content::v-deep {
+    background-color: #000;
+    .container {
+      padding: 0;
+    }
+  }
+</style>

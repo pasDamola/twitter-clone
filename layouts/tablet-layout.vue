@@ -2,7 +2,7 @@
   <v-app dark>
     <navbar />
     <appbar-mobile @toggleDrawer="toggleDrawer" />
-    <v-content>
+    <v-content class="content">
       <v-container>
         <nuxt />
       </v-container>
@@ -94,3 +94,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .content::v-deep {
+    background-color: #000;
+    .container {
+      padding: 0;
+    }
+  }
+</style>

@@ -36,6 +36,7 @@ export default {
       // this.isDesktop = e.currentTarget.innerWidth > 1005;
     },
     onResize(e) {
+      location.reload();
       this.isMobile = e.target.innerWidth < 500;
       this.isTablet = e.target.innerWidth > 500 && e.target.innerWidth < 1005;
       // this.isDesktop = e.target.innerWidth > 1005;
@@ -44,6 +45,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  .content::v-deep {
+    background-color: #000;
+  }
 </style>

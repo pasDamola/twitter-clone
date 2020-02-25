@@ -1,92 +1,179 @@
-<template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+<template class="app">
+  <v-container>
+    <v-list width="100%" color="dark">
+      <v-list-item v-for="(item, index) in tweets" :key="index" class="tweet-list">
+        <v-list-item-avatar>
+          <img :src="item.dp" alt="">
+        </v-list-item-avatar>
+        <v-list-item-content class="my-content">
+          <v-list-item-title>
+            <v-layout justify-space-between align-center class="tweet">
+              <p>{{ item.name }} <span>{{ item.handle }}</span></p>
+              <v-icon>mdi-chevron-down</v-icon>
+            </v-layout>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ item.tweet }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="item.img && item.img.length > 0">
+            <div class="images">
+              <v-col v-for="(img, i ) in item.img" :key="i">
+                <v-card :style="`background-image: url(${img})`" min-width="280" min-height="280" class="tweet-img" />
+              </v-col>
+            </div>
+          </v-list-item-subtitle>
+          <v-list-item-subtitle>
+            <v-layout class="icons my-4">
+              <v-icon :color="item.message || item.messageClicked ?'blue':'white'" @mouseenter="item.message = true" @mouseleave="item.message = false" @click="item.messageClicked = !item.messageClicked">
+                {{ !item.messageClicked ? 'mdi-message-outline' : 'mdi-message' }}
+              </v-icon>
+              <v-spacer />
+              <v-icon :color="item.retweet || item.retweetClicked ?'green':'white'" @mouseenter="item.retweet = true" @mouseleave="item.retweet = false" @click="item.retweetClicked = !item.retweetClicked">
+                mdi-twitter-retweet
+              </v-icon>
+              <v-spacer />
+              <v-icon :color="item.heart || item.heartClicked ? 'red':'white'" @mouseenter="item.heart = true" @mouseleave="item.heart = false" @click="item.heartClicked = !item.heartClicked">
+                {{ !item.heartClicked ? 'mdi-heart-outline': 'mdi-heart' }}
+              </v-icon>
+              <v-spacer />
+              <div>
+                <v-icon :color="item.share || item.shareClicked ? 'blue':'white'" @mouseenter="item.share = true" @mouseleave="item.share = false" @click="item.shareClicked = !item.shareClicked">
+                  {{ !item.shareClicked ? 'mdi-share-outline': 'mdi-share' }}
+                </v-icon>
+              </div>
+            </v-layout>
+          </v-list-item-subtitle>
+          <v-divider />
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider />
+    </v-list>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
-import VuetifyLogo from '~/components/VuetifyLogo.vue';
-
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  }
+  layout: 'default',
+  data: () => ({
+    tweets: [
+      {
+        name: 'S.S. Malgwi',
+        handle: '@santos__vito',
+        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
+        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        message: false,
+        retweet: false,
+        heart: false,
+        share: false,
+        messageClicked: false,
+        retweetClicked: false,
+        heartClicked: false,
+        shareClicked: false
+      },
+      {
+        name: 'S.S. Malgwi',
+        handle: '@santos__vito',
+        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
+        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        img: [
+          'https://cdn.vuetifyjs.com/images/lists/ali.png',
+          'https://cdn.vuetifyjs.com/images/lists/ali.png',
+          'https://cdn.vuetifyjs.com/images/cards/server-room.jpg',
+          'https://cdn.vuetifyjs.com/images/parallax/material.jpg'
+        ],
+        message: false,
+        retweet: false,
+        heart: false,
+        share: false,
+        messageClicked: false,
+        retweetClicked: false,
+        heartClicked: false,
+        shareClicked: false
+      },
+      {
+        name: 'S.S. Malgwi',
+        handle: '@santos__vito',
+        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
+        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        message: false,
+        retweet: false,
+        heart: false,
+        share: false,
+        messageClicked: false,
+        retweetClicked: false,
+        heartClicked: false,
+        shareClicked: false
+      },
+      {
+        name: 'S.S. Malgwi',
+        handle: '@santos__vito',
+        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
+        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        message: false,
+        retweet: false,
+        heart: false,
+        share: false,
+        messageClicked: false,
+        retweetClicked: false,
+        heartClicked: false,
+        shareClicked: false
+      },
+      {
+        name: 'S.S. Malgwi',
+        handle: '@santos__vito',
+        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
+        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+        message: false,
+        retweet: false,
+        heart: false,
+        share: false,
+        messageClicked: false,
+        retweetClicked: false,
+        heartClicked: false,
+        shareClicked: false
+      }
+    ]
+  })
 };
 </script>
+
+<style lang="scss" scoped>
+  .v-avatar.v-list-item__avatar {
+    align-self: flex-start;
+  }
+
+  .my-content:v-deep {
+    max-width: 80%
+  }
+
+  .images {
+    max-width: 80%;
+    width: 600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .app::v-deep {
+    background-color: #fff;
+  }
+
+  .icons{
+    max-width: 60%;
+  }
+
+  .tweet {
+    p {
+      span {
+        color: rgb(126, 126, 126);
+        font-size: 0.8rem;
+      }
+    }
+
+    i.v-icon {
+      color: rgb(126, 126, 126);
+    }
+  }
+
+  .tweet-img {
+    background-size: cover;
+  }
+</style>

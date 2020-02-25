@@ -1,9 +1,9 @@
 <template>
   <v-app dark>
-    <navbar class="navbar-tab"/>
-    <navbar-desktop class="navbar-desktop"/>
+    <navbar class="navbar-tab" />
+    <navbar-desktop class="navbar-desktop" />
     <appbar-mobile @toggleDrawer="toggleDrawer" />
-    <v-content>
+    <v-content class="content">
       <v-container>
         <nuxt />
       </v-container>
@@ -109,6 +109,12 @@ export default {
   @media screen and (min-width: 1005){
     .navbar-tab {
       display: none;
+    }
+  }
+  .content::v-deep {
+    background-color: #000;
+    .container {
+      padding: 0;
     }
   }
 </style>

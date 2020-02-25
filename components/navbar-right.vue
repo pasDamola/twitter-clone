@@ -95,7 +95,9 @@
               <v-list-item-subtitle>{{ item.handle }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-btn class="ma-2" rounded outlined color="blue">Follow</v-btn>
+              <v-btn class="ma-2" rounded outlined color="blue">
+                Follow
+              </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-divider v-else class="divider" />

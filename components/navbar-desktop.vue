@@ -34,7 +34,9 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
-          <v-btn class="ma-2 tweet" rounded color="blue" width="100%" min-height="50">Tweet</v-btn>
+          <v-btn class="ma-2 tweet" rounded color="blue" width="100%" min-height="50">
+            Tweet
+          </v-btn>
         </v-list-item>
       </v-list>
     </div>
