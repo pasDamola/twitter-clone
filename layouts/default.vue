@@ -36,7 +36,9 @@ export default {
       // this.isDesktop = e.currentTarget.innerWidth > 1005;
     },
     onResize(e) {
-      location.reload();
+      if (!(Math.abs((screen.width - e.target.innerWidth)) < 50)) {
+        location.reload();
+      }
       this.isMobile = e.target.innerWidth < 500;
       this.isTablet = e.target.innerWidth > 500 && e.target.innerWidth < 1005;
       // this.isDesktop = e.target.innerWidth > 1005;

@@ -3,7 +3,7 @@
     permanent
     fixed
     right
-    width="30%"
+    width="35%"
     color="dark"
     app
   >
@@ -205,7 +205,8 @@ export default {
 
   .caption {
     span, i {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 100;
     }
   }
 

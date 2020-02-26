@@ -3,7 +3,7 @@
     fixed
     color="dark"
     permanent
-    width="25%"
+    width="30%"
     app
   >
     <div class="nav-desk">
