@@ -11,6 +11,17 @@
         <div class="profile-picture">
           <img :src="'https://cdn.vuetifyjs.com/images/john.jpg'" alt="">
         </div>
+          <v-btn
+            class="ma-2"
+            rounded
+            outlined
+            absolute
+            bottom
+            right
+            color="blue"
+          >
+            Edit Profile
+          </v-btn>
       </v-layout>
       <v-list color="black">
         <v-list-item two-line>
@@ -177,110 +188,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .textarea {
-    outline: none;
-    user-select: text;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    &[contenteditable=true]:empty:before{
-    content: attr(placeholder);
-    display: block; /* For Firefox */
-    font-size: 1.2rem;
-    color: #fff;
-    opacity: 0.6;
-    font-weight: 300;
-    }
-    }
-
-    .v-progress-circular::v-deep {
-    font-size: 0.8rem;
-    .v-progress-circular__underlay {
-    stroke: rgba(255, 255, 255, 0.2);
-    }
-    }
-
-    .actions {
-    max-width: 100%;
-    flex-grow: 0;
-    width: 120px;
-    justify-content: space-between;
-    }
-    .v-text-field {
-    margin-top: 0;
-    padding-top: 0;
-    &--rounded::v-deep {
-    > .v-input__control {
-    > .v-input__slot {
-    padding: 0px;
-    > .v-text-field__slot {
-    ::placeholder {
-    font-size: 1.2rem;
-    color: #fff;
-    opacity: 0.6;
-    font-weight: 300;
-    }
-    ::after {
-    content: attr(data-end, 160);
-    color: red;
-    }
-    }
-    }
-    }
-    }
-    }
-
-    .v-avatar.v-list-item__avatar {
-    align-self: flex-start;
-    }
-
-    .my-content:v-deep {
-    max-width: 80%
-    }
-
-    .images {
-    max-width: 100%;
-    width: 400px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
-    }
-    .app::v-deep {
-    background-color: #fff;
-    }
-
-    .icons{
-    max-width: 100%;
-    width: 600px;
-    }
-
-    .line {
-    width: 1px;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    margin: 0 10px;
-    }
-
     .cover-photo{
-    padding-left: 0;
-    padding-right: 0;
-    position: relative;
-    margin-bottom: 50px;
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+        margin-bottom: 50px;
     }
     .profile-picture{
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 2px inset;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    border: 2px solid black;
-    position: absolute;
-    bottom: -80px;
-    left: 20px;
-    img {
-        width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 2px inset;
+        width: 160px;
+        height: 160px;
         border-radius: 50%;
-    }
+        border: 2px solid black;
+        position: absolute;
+        bottom: -80px;
+        left: 20px;
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
     }
 </style>
