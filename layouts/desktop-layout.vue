@@ -52,7 +52,7 @@ export default {
         {
           icon: '/icons/profile.svg',
           title: 'Profile',
-          to: '/'
+          to: '/profile'
         },
         {
           icon: '/icons/topics.svg',
