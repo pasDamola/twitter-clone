@@ -1,6 +1,6 @@
 <template>
   <div>
-    <step-one @increaseStep="increaseStep" :step="step" />
+    <step-one :step="step" @increaseStep="increaseStep" />
   </div>
 </template>
 
@@ -15,7 +15,6 @@ export default {
   }),
   methods: {
     increaseStep() {
-      console.log('object');
       this.step += 1;
     }
   }
