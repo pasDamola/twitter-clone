@@ -1,21 +1,43 @@
 <template>
   <div>
-    <step-one :step="step" @increaseStep="increaseStep" />
+    <step-one v-show="step == 0" :step="step" @increaseStep="increaseStep" />
+    <step-two :step="step" @increaseStep="increaseStep" @decreaseStep="decreaseStep" />
+    <step-three
+      :step="step"
+      :name="userDetails.name"
+      :email="userDetails.email"
+      @decreaseStep="decreaseStep"
+      @increaseStep="increaseStep"
+      @goBack="step = 0"
+    />
   </div>
 </template>
 
 <script>
 import StepOne from '@/components/signup-steps/one';
+import StepTwo from '@/components/signup-steps/two';
+import StepThree from '@/components/signup-steps/three';
 export default {
-  components: { StepOne },
+  components: { StepOne, StepTwo, StepThree },
   layout: 'empty',
   data: () => ({
     dialog: true,
-    step: 0
+    step: 0,
+    userDetails: {
+      name: '',
+      email: ''
+    }
   }),
   methods: {
-    increaseStep() {
+    increaseStep(e) {
+      if (this.step === 0) {
+        this.userDetails.name = e.name;
+        this.userDetails.email = e.email;
+      }
       this.step += 1;
+    },
+    decreaseStep(e) {
+      this.step -= 1;
     }
   }
 };

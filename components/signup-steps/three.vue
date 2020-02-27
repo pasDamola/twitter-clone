@@ -4,55 +4,64 @@
       <v-layout column class="signup" justify-center align-center>
         <v-btn
           color="blue"
-          rounded
           absolute
-          depressed
           top
-          right
-          dark
-          :disabled="!(isNameValid && isEmailValid)"
-          class="next-btn"
-          @click="$emit('increaseStep', {name, email}); dialog = false;"
+          left
+          icon
+          @click="$emit('decreaseStep'); dialog = false;"
         >
-          Next
+          <v-icon color="blue">
+            mdi-arrow-left
+          </v-icon>
         </v-btn>
-        <img src="/icons/twitter.svg" alt="Twitter icon">
         <h3 class="text-left headline font-weight-bold text--black">
           Create your account
         </h3>
         <v-form>
           <v-text-field
-            v-model="name"
+            :value="name"
             light
             label="Name"
             placeholder=" "
             filled
             color="#1da1f2"
-            :rules="[rules.required, rules.counter]"
             counter
             maxlength="50"
             background-color="rgb(245, 248, 250)"
             class="mx-3 my-5"
+            hide-details
+            @click="$emit('goBack'); dialog = false"
           />
           <div class="mx-3">
             <v-text-field
-              v-model="email"
+              :value="email"
               hint="Email"
               type="email"
               label="Email"
-              :rules="[rules.required]"
               placeholder=" "
               light
               filled
               color="#1da1f2"
               background-color="rgb(245, 248, 250)"
+              hide-details
+              @click="$emit('goBack'); dialog = false"
             />
           </div>
         </v-form>
         <v-layout class="signup-actions my-4" justify-space-between>
-          <p>Already have an account?</p>
-          <a href="/login">Sign in</a>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi laboriosam neque aliquid maiores, aliquam ex temporibus, fugiat harum repudiandae facere suscipit minima, exercitationem ad sed. Consequatur iusto hic neque architecto?</p>
         </v-layout>
+        <v-btn
+          min-height="50"
+          dark
+          block
+          rounded
+          depressed
+          color="blue"
+          class="my-10"
+        >
+          Sign up
+        </v-btn>
       </v-layout>
     </v-dialog>
   </v-row>
@@ -65,27 +74,25 @@ export default {
     step: {
       type: Number,
       default: 0
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    email: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       /* eslint-disable */
-      dialog: this.step === 0,
-      name: '',
-      email: '',
-      rules: {
-        required: value => !!value || 'Required.',
-        counter: value => value.length <= 50 || 'Max 50 characters',
-        email: (value) => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || 'Invalid e-mail.';
-        }
-      }
+      dialog: this.step === 2
     }
   },
   watch: {
     step(val) {
-      if (val === 0) {
+      if (val === 2) {
         this.dialog = true;
       }
     }
@@ -127,7 +134,7 @@ export default {
     }
     &-actions {
       font-size: 0.85rem;
-      width: 230px;
+      width: 95%;
       max-width: 100%;
       margin: 0 auto;
       p {
