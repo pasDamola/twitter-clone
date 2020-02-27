@@ -1,8 +1,8 @@
 <template class="app">
   <v-container>
     <v-list width="100%" color="dark">
-      <v-list-item>
-        <new-tweet class="new-tweet" />
+      <v-list-item class="new-tweet">
+        <new-tweet />
       </v-list-item>
       <v-divider class="divider" />
       <div v-for="(item, index) in tweets" :key="index">
@@ -264,12 +264,20 @@ export default {
   }
 
   .new-tweet {
-    margin: 10px 0;
+    display: none;
+    @media screen and (min-width: 1000px){
+      margin: 10px 0;
+      display: flex;
+    }
   }
 
   .divider {
-    border: 6px solid rgba(255, 255, 255, 0.2);
-    margin: 10px 0;
+    display: none;
+    @media screen and (min-width: 1000px){
+      display: block;
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      margin: 10px 0;
+    }
   }
 
 </style>

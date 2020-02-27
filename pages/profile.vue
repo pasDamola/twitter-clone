@@ -12,7 +12,7 @@
           <img :src="'https://cdn.vuetifyjs.com/images/john.jpg'" alt="">
         </div>
         <v-btn
-          class="ma-2"
+          class="ma-2 edit-profile"
           rounded
           outlined
           absolute
@@ -41,12 +41,10 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>511 Following</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title>200 Followers</v-list-item-title>
-          </v-list-item-content>
+          <v-layout>
+            <p>511 Following</p>
+            <p>200 Followers</p>
+          </v-layout>
         </v-list-item>
       </v-list>
       <v-tabs v-model="tab" background-color="black" grow>
@@ -130,16 +128,26 @@ export default {
   }
   .profile-picture{
     box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 2px inset;
-    width: 160px;
-    height: 160px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     border: 2px solid black;
     position: absolute;
-    bottom: -80px;
+    bottom: -50px;
     left: 20px;
     img {
       width: 100%;
       border-radius: 50%;
     }
+
+    @media screen and (min-width: 768px){
+      width: 160px;
+      height: 160px;
+      bottom: -80px;
+    }
+  }
+
+  .edit-profile {
+    bottom: -60px;
   }
 </style>

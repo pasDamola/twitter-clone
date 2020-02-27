@@ -166,30 +166,6 @@ export default {
     justify-content: space-between;
   }
 
-  .v-text-field {
-    margin-top: 0;
-    padding-top: 0;
-    &--rounded::v-deep {
-      > .v-input__control {
-        > .v-input__slot {
-          padding: 0px;
-          > .v-text-field__slot {
-            ::placeholder {
-              font-size: 1.2rem;
-              color: #fff;
-              opacity: 0.6;
-              font-weight: 300;
-            }
-            ::after {
-              content: attr(data-end, 160);
-              color: red;
-            }
-          }
-        }
-      }
-    }
-  }
-
   .v-avatar.v-list-item__avatar {
     align-self: flex-start;
   }
