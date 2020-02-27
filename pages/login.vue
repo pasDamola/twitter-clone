@@ -1,7 +1,9 @@
 <template>
   <v-layout column class="login" justify-center align-center>
     <img src="/icons/twitter.svg" alt="Twitter icon">
-    <h3 class="headline font-weight-bold text--black">Log in to Twitter</h3>
+    <h3 class="headline font-weight-bold text--black">
+      Log in to Twitter
+    </h3>
     <v-form>
       <v-text-field
         v-model="username"
@@ -28,13 +30,13 @@
           hide-details
         />
       </div>
-      <v-btn  depressed color="blue" min-height="50" rounded class="my-4 mx-3">
+      <v-btn depressed color="blue" min-height="50" rounded class="my-4 mx-3">
         Log in
       </v-btn>
     </v-form>
     <v-layout class="login-actions my-4" justify-space-between>
       <a href="">Forgot password?</a>
-      <a href="">Sign up for Twitter</a>
+      <a href="/signup">Sign up for Twitter</a>
     </v-layout>
   </v-layout>
 </template>
