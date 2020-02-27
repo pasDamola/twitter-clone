@@ -39,33 +39,33 @@
         </v-list-item>
       </v-list>
       <v-tabs v-model="tab" background-color="black" grow>
-        <v-tab v-for="item in items" :key="item">
+        <v-tab v-for="item in items" :key="item" style="font-size:10px;">
           {{ item }}
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-if="tab===0" color="black">
+        <v-tab-item v-show="tab===0" color="black">
           <tweet
             v-for="tweet in tweets"
             :key="tweet"
             :item="tweet"
           />
         </v-tab-item>
-        <v-tab-item v-else-if="tab===1" color="black">
-          <tweet-replies
-            v-for="tweet in tweets"
-            :key="tweet"
-            :item="tweet"
-          />
-        </v-tab-item>
-        <v-tab-item v-if="tab===2" color="black">
+        <v-tab-item v-show="tab===1" color="black">
           <tweet
             v-for="tweet in tweets"
             :key="tweet"
             :item="tweet"
           />
         </v-tab-item>
-        <v-tab-item v-else-if="tab===3" color="black">
+        <v-tab-item v-show="tab===2" color="black">
+          <tweet
+            v-for="tweet in tweets"
+            :key="tweet"
+            :item="tweet"
+          />
+        </v-tab-item>
+        <v-tab-item v-show="tab===3" color="black">
           <tweet
             v-for="tweet in tweets"
             :key="tweet"
@@ -80,9 +80,8 @@
 
 <script>
 import Tweet from '@/components/tweet';
-import TweetReplies from '@/components/tweet-replies';
 export default {
-  components: { Tweet, TweetReplies },
+  components: { Tweet },
   layout: 'default',
   data: () => ({
     tweets: [
