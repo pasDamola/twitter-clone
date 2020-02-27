@@ -53,13 +53,13 @@ export default {
         icon: 'mdi-twitter',
         material: true,
         title: '',
-        to: '/home'
+        to: '/'
       },
       {
         icon: 'mdi-home',
         material: true,
         title: 'Home',
-        to: '/#1'
+        to: '/'
       },
       {
         icon: 'mdi-magnify',
@@ -95,7 +95,7 @@ export default {
         icon: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
         material: false,
         title: 'Profile',
-        to: '/#6',
+        to: '/profile',
         img: true
       }
     ]

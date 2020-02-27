@@ -17,6 +17,7 @@ import Navbar from '@/components/navbar-tablet';
 import NavbarDesktop from '@/components/navbar-desktop';
 import AppbarMobile from '@/components/appbar-mobile';
 import NavbarRight from '@/components/navbar-right';
+// import AppbarProfile from '@/components/appbar-profile';
 export default {
   components: { Navbar, AppbarMobile, NavbarRight, NavbarDesktop },
   data() {
@@ -52,7 +53,7 @@ export default {
         {
           icon: '/icons/profile.svg',
           title: 'Profile',
-          to: '/'
+          to: '/profile'
         },
         {
           icon: '/icons/topics.svg',

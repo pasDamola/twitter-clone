@@ -11,21 +11,8 @@
     <v-avatar size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')">
       <img src="https://randomuser.me/api/portraits/women/81.jpg" alt="User image">
     </v-avatar>
-    <v-toolbar-title v-if="$nuxt.$route.path === '/'" class="mx-4">
-      <h4>Home</h4>
-    </v-toolbar-title>
-    <v-toolbar-title v-else class="mx-4">
-      <v-layout align-center>
-        <v-icon color="blue">
-          mdi-arrow-left
-        </v-icon>&nbsp;
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title><b>oyinD</b></v-list-item-title>
-            <v-list-item-subtitle><b>604 Tweets</b></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-layout>
+    <v-toolbar-title class="mx-4">
+      <h4>oyinD</h4>
     </v-toolbar-title>
     <v-spacer />
     <img src="/icons/top-tweet.svg" alt="Top trends">

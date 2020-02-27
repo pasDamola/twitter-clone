@@ -81,7 +81,9 @@
                 <v-icon>mdi-chevron-down</v-icon>
               </v-layout>
             </v-list-item-title>
-            <v-list-item-subtitle class="user-tweet">{{ item.tweet }}</v-list-item-subtitle>
+            <v-list-item-subtitle class="user-tweet">
+              {{ item.tweet }}
+            </v-list-item-subtitle>
             <v-list-item-subtitle v-if="item.img && item.img.length > 0">
               <div class="images">
                 <v-col v-for="(img, i ) in item.img" :key="i">
