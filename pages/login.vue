@@ -4,6 +4,9 @@
     <h3 class="headline font-weight-bold text--black">
       Log in to Twitter
     </h3>
+    <v-alert v-model="showError" type="error" dismissible>
+      {{ error }}
+    </v-alert>
     <v-form>
       <v-text-field
         v-model="loginDetails.userName"
@@ -59,12 +62,14 @@
 </template>
 
 <script>
+// import nuxtStorage from 'nuxt-storage';
 export default {
   layout: 'empty',
   data: () => ({
     error: '',
     isPassword: true,
     showLoader: false,
+    showError: false,
     loginDetails: {
       userEmail: '',
       userName: '',
@@ -75,13 +80,16 @@ export default {
     logIn() {
       this.showLoader = true;
       this.$axios.post('/login', this.loginDetails).then((res) => {
-        localStorage.setItem('token', res.data.authentication);
+        this.$cookies.set('token', res.data.authentication, {
+          path: '/'
+        });
         this.showLoader = false;
-        this.$router.push('/profile');
+        this.$store.dispatch('authenticate');
+        this.$router.push('/home');
       }).catch((err) => {
-        console.log(err.response);
         const error = err.response.data;
         this.showLoader = false;
+        this.showError = true;
         this.error = error.message ? error.message : 'Oops, something went wrong';
       });
     }

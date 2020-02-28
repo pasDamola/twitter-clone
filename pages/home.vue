@@ -61,6 +61,7 @@
 import NewTweet from '@/components/new-tweet';
 export default {
   components: { NewTweet },
+  middleware: 'auth',
   layout: 'default',
   data: () => ({
     tweet: '',
