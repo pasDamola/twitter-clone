@@ -39,10 +39,18 @@
         <v-list-item class="font-weight-light caption">
           <v-layout justify-start>
             <v-list-item-content>
-              <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-calendar</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
+              <v-list-item-title class="joined">
+                <v-icon color="rgba(255, 255, 255, 0.5)">
+                  mdi-calendar
+                </v-icon> Joined {{ userProfile.joined }}
+              </v-list-item-title>
             </v-list-item-content>
             <v-list-item-content>
-              <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-balloon</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
+              <v-list-item-title class="joined">
+                <v-icon color="rgba(255, 255, 255, 0.5)">
+                  mdi-balloon
+                </v-icon> Joined {{ userProfile.joined }}
+              </v-list-item-title>
             </v-list-item-content>
           </v-layout>
         </v-list-item>
@@ -94,17 +102,17 @@
     </v-list>
     <v-dialog v-model="dialog" width="500" dark>
       <v-layout class="edit-profile">
-        <v-toolbar>
+        <v-toolbar color="black">
           <v-btn icon>
-            <v-icon>mdi-close</v-icon>
+            <v-icon color="blue">mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Title</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">Edit Profile</v-toolbar-title>
           <v-spacer />
-          <v-btn icon class="hidden-xs-only">
-            <v-icon>mdi-magnify</v-icon>
+          <v-btn rounded depressed color="blue" class="hidden-xs-only" dark>
+            Save
           </v-btn>
         </v-toolbar>
-      </v-layout> 
+      </v-layout>
     </v-dialog>
   </v-container>
 </template>
