@@ -12,13 +12,14 @@
           <img :src="'https://cdn.vuetifyjs.com/images/john.jpg'" alt="">
         </div>
         <v-btn
-          class="ma-2 edit-profile"
+          class="ma-2 edit-profile-btn"
           rounded
           outlined
           absolute
           bottom
           right
           color="blue"
+          @click="dialog = true"
         >
           Edit Profile
         </v-btn>
@@ -36,18 +37,20 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item class="font-weight-light caption">
-          <v-list-item-content>
-            <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-calendar</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-balloon</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
-          </v-list-item-content>
+          <v-layout justify-start>
+            <v-list-item-content>
+              <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-calendar</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title class="joined"><v-icon color="rgba(255, 255, 255, 0.5)">mdi-balloon</v-icon> Joined {{ userProfile.joined }}</v-list-item-title>
+            </v-list-item-content>
+          </v-layout>
         </v-list-item>
         <v-list-item>
           <v-layout>
-            <p><b>{{ userProfile.followings }}</b> <span class="body-2 font-weight-thin">Following</span></p>
+            <p><b>{{ userProfile.followings }}</b> <span class="body-2 font-weight-light">Following</span></p>
             <p class="mx-3">
-              <b>{{ userProfile.followers }}</b> <span class="body-2 font-weight-thin">Followers</span>
+              <b>{{ userProfile.followers }}</b> <span class="body-2 font-weight-light">Followers</span>
             </p>
           </v-layout>
         </v-list-item>
@@ -89,6 +92,20 @@
       </v-tabs-items>
       <v-divider />
     </v-list>
+    <v-dialog v-model="dialog" width="500" dark>
+      <v-layout class="edit-profile">
+        <v-toolbar>
+          <v-btn icon>
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Title</v-toolbar-title>
+          <v-spacer />
+          <v-btn icon class="hidden-xs-only">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-toolbar>
+      </v-layout> 
+    </v-dialog>
   </v-container>
 </template>
 
@@ -98,6 +115,7 @@ export default {
   components: { Tweet },
   layout: 'default',
   data: () => ({
+    dialog: false,
     tweets: [
       {
         name: 'S.S. Malgwi',
@@ -126,6 +144,7 @@ export default {
 
   }),
   mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
     this.$axios.get('/viewProfile').then((res) => {
       const month = new Date(res.data.created_at).getMonth();
       const year = new Date(res.data.created_at).getFullYear();
@@ -151,7 +170,7 @@ export default {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 2px solid black;
+    border: 4px solid black;
     position: absolute;
     bottom: -50px;
     left: 20px;
@@ -161,15 +180,20 @@ export default {
     }
 
     @media screen and (min-width: 768px){
-      width: 160px;
-      height: 160px;
-      bottom: -80px;
+      width: 140px;
+      height: 140px;
+      bottom: -70px;
     }
   }
+
   .edit-profile {
+    background-color: black;
+  }
+
+  .edit-profile-btn {
     bottom: -60px;
   }
-  .joined {
+  .joined, .body-2 {
     font-size: 0.8rem !important;
     color: rgba(255, 255, 255, 0.5);
   }
