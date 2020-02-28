@@ -83,6 +83,7 @@ export default {
         this.$cookies.set('token', res.data.authentication, {
           path: '/'
         });
+        this.$axios.defaults.headers.common.Authorization = `Bearer ${res.data.authentication}`;
         this.showLoader = false;
         this.$store.dispatch('authenticate');
         this.$router.push('/home');

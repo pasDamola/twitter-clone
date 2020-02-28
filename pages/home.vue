@@ -2,7 +2,7 @@
   <v-container>
     <v-list width="100%" color="dark">
       <v-list-item class="new-tweet">
-        <new-tweet />
+        <new-tweet @fetchTweet="fetchTweets" />
       </v-list-item>
       <v-divider class="divider" />
       <div v-for="(item, index) in tweets" :key="index">
@@ -169,50 +169,36 @@ export default {
       return 160 - this.tweetLength;
     }
   },
+  mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
+    this.fetchTweets();
+  },
   methods: {
-    handleKeyPress(e) {
-      this.tweetLength = e.target.textContent.length;
-      this.setEndOfContenteditable(e);
-      if (e.target.textContent.length < 160) {
-        this.tweet = e.target.textContent;
-      } else {
-        e.preventDefault();
-        let span = document.querySelector('.textarea span');
-        if (!span) {
-          span = document.createElement('span');
-          e.target.appendChild(span);
-        }
-        span.style.background = 'red';
-        span.textContent = span.textContent + e.key;
-      }
-    },
-    handleCtrlKeyPress(e) {
-      this.tweetLength = e.target.textContent.length;
-      if (e.target.textContent.length < 160) {
-        this.tweet = e.target.textContent;
-      }
-    },
-    handlePaste(e) {
-      e.preventDefault();
-      const copiedText = e.clipboardData.getData('text/plain');
-      document.execCommand('inserttext', false, copiedText);
-    },
-    setEndOfContenteditable() {
-      const contentEditableElement = document.querySelector('.textarea');
-      let range, selection;
-      if (document.createRange) {
-        range = document.createRange();
-        range.selectNodeContents(contentEditableElement);
-        range.collapse(false);
-        selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-      } else if (document.selection) {
-        range = document.body.createTextRange();
-        range.moveToElementText(contentEditableElement);
-        range.collapse(false);
-        range.select();
-      }
+    fetchTweets() {
+      this.$axios.get('/viewTweet').then((res) => {
+        const tweets = [];
+        res.data.forEach((tweet) => {
+          const userTweet = {
+            name: tweet.userFullName,
+            handle: tweet.userName,
+            tweet: tweet.tweet.tweetinfo,
+            dp: tweet.dp ? tweet.dp : 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+            message: false,
+            retweet: false,
+            heart: false,
+            share: false,
+            messageClicked: false,
+            retweetClicked: false,
+            heartClicked: false,
+            shareClicked: false
+          };
+          const divider = { divider: true };
+          tweets.push(userTweet, divider);
+        });
+        this.tweets = tweets;
+      }).catch((err) => {
+        console.log(err);
+      });
     }
   }
 };
