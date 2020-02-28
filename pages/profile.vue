@@ -56,28 +56,28 @@
         <v-tab-item v-show="tab===0" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.dp"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===1" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.name"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===2" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.handle"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===3" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.tweet"
             :item="tweet"
           />
         </v-tab-item>

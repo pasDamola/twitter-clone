@@ -1,5 +1,5 @@
 <template>
-  <v-layout column class="login" justify-center align-center>
+  <v-layout v-if="!showLoader" column class="login" justify-center align-center>
     <img src="/icons/twitter.svg" alt="Twitter icon">
     <h3 class="headline font-weight-bold text--black">
       Log in to Twitter
@@ -20,7 +20,8 @@
         <v-text-field
           v-model="loginDetails.password"
           hint="Password"
-          type="password"
+          :type="isPassword ? 'password' : 'text'"
+          :append-icon="isPassword ? 'mdi-eye' : 'mdi-eye-off'"
           label="Password"
           placeholder=" "
           light
@@ -28,6 +29,7 @@
           color="#1da1f2"
           background-color="rgb(245, 248, 250)"
           hide-details
+          @click:append="isPassword = !isPassword"
         />
       </div>
       <v-btn
@@ -46,6 +48,14 @@
       <a href="/signup">Sign up for Twitter</a>
     </v-layout>
   </v-layout>
+  <v-layout v-else style="height: 100vh;" justify-center align-center>
+    <v-progress-circular
+      indeterminate
+      color="blue"
+      width="2"
+      size="45"
+    />
+  </v-layout>
 </template>
 
 <script>
@@ -53,6 +63,7 @@ export default {
   layout: 'empty',
   data: () => ({
     error: '',
+    isPassword: true,
     showLoader: false,
     loginDetails: {
       userEmail: '',
@@ -64,9 +75,7 @@ export default {
     logIn() {
       this.showLoader = true;
       this.$axios.post('/login', this.loginDetails).then((res) => {
-        localStorage.setItem('token', 'hello');
-        console.log(res);
-        console.log(localStorage.getItem('token'));
+        localStorage.setItem('token', res.data.authentication);
         this.showLoader = false;
         this.$router.push('/profile');
       }).catch((err) => {
