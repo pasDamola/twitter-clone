@@ -59,6 +59,7 @@
           depressed
           color="blue"
           class="my-10"
+          @click="$emit('signup'); dialog = false"
         >
           Sign up
         </v-btn>

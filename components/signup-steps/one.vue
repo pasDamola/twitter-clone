@@ -12,19 +12,35 @@
           dark
           :disabled="!(isNameValid && isEmailValid)"
           class="next-btn"
-          @click="$emit('increaseStep', {name, email}); dialog = false;"
+          @click="$emit('increaseStep', {name, email, username, password}); dialog = false;"
         >
           Next
         </v-btn>
         <img src="/icons/twitter.svg" alt="Twitter icon">
         <h3 class="text-left headline font-weight-bold text--black">
-          Create your account
+          Create your account {{ showError }}
         </h3>
+        <v-alert v-model="showError" type="error" dismissible>
+          {{ error }}
+        </v-alert>
         <v-form>
           <v-text-field
             v-model="name"
             light
             label="Name"
+            placeholder=" "
+            filled
+            color="#1da1f2"
+            :rules="[rules.required, rules.counter]"
+            counter
+            maxlength="50"
+            background-color="rgb(245, 248, 250)"
+            class="mx-3 my-5"
+          />
+          <v-text-field
+            v-model="username"
+            light
+            label="Username"
             placeholder=" "
             filled
             color="#1da1f2"
@@ -48,6 +64,23 @@
               background-color="rgb(245, 248, 250)"
             />
           </div>
+          <v-text-field
+            v-model="password"
+            light
+            label="Password"
+            :type="isPassword ? 'password' : 'text'"
+            placeholder=" "
+            filled
+            color="#1da1f2"
+            :rules="[rules.required]"
+            counter
+            maxlength="50"
+            hide-details
+            :append-icon="isPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            background-color="rgb(245, 248, 250)"
+            class="mx-3 my-5"
+            @click:append="isPassword = !isPassword"
+          />
         </v-form>
         <v-layout class="signup-actions my-4" justify-space-between>
           <p>Already have an account?</p>
@@ -65,14 +98,22 @@ export default {
     step: {
       type: Number,
       default: 0
+    },
+    error: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       /* eslint-disable */
+      isPassword: true,
+      showError: false,
       dialog: this.step === 0,
       name: '',
       email: '',
+      username: '',
+      password: '',
       rules: {
         required: value => !!value || 'Required.',
         counter: value => value.length <= 50 || 'Max 50 characters',
@@ -87,6 +128,11 @@ export default {
     step(val) {
       if (val === 0) {
         this.dialog = true;
+      }
+    },
+    error(val) {
+      if(val.length > 0) {
+        this.showError = true;
       }
     }
   },

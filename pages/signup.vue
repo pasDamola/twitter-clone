@@ -1,15 +1,24 @@
 <template>
   <div>
-    <step-one v-show="step == 0" :step="step" @increaseStep="increaseStep" />
+    <step-one v-show="step == 0" :step="step" :error="error" @increaseStep="increaseStep" />
     <step-two :step="step" @increaseStep="increaseStep" @decreaseStep="decreaseStep" />
     <step-three
       :step="step"
-      :name="userDetails.name"
-      :email="userDetails.email"
+      :name="userDetails.userFullName"
+      :email="userDetails.userEmail"
       @decreaseStep="decreaseStep"
       @increaseStep="increaseStep"
       @goBack="step = 0"
+      @signup="signUp"
     />
+    <v-layout v-if="showLoader" style="height: 100vh;" justify-center align-center>
+      <v-progress-circular
+        indeterminate
+        color="blue"
+        width="2"
+        size="45"
+      />
+    </v-layout>
   </div>
 </template>
 
@@ -23,16 +32,35 @@ export default {
   data: () => ({
     dialog: true,
     step: 0,
+    error: '',
+    showLoader: false,
     userDetails: {
-      name: '',
-      email: ''
+      userFullName: '',
+      userEmail: '',
+      userName: '',
+      password: ''
     }
   }),
   methods: {
+    signUp() {
+      this.showLoader = true;
+      this.error = '';
+      this.$axios.post('/create', this.userDetails).then((res) => {
+        this.showLoader = false;
+        this.$router.push('/login');
+      }).catch((err) => {
+        const error = err.response.data;
+        this.showLoader = false;
+        this.step = 0;
+        this.error = error.message ? error.message : 'Oops, something went wrong';
+      });
+    },
     increaseStep(e) {
       if (this.step === 0) {
-        this.userDetails.name = e.name;
-        this.userDetails.email = e.email;
+        this.userDetails.userFullName = e.name;
+        this.userDetails.userEmail = e.email;
+        this.userDetails.userName = e.username;
+        this.userDetails.password = e.password;
       }
       this.step += 1;
     },

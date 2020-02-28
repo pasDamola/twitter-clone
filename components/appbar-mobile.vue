@@ -8,7 +8,7 @@
     extension-height="2"
     app
   >
-    <v-avatar size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')" v-show="$nuxt.$route.path == '/home'">
+    <v-avatar v-show="$nuxt.$route.path == '/home'" size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')">
       <img src="https://randomuser.me/api/portraits/women/81.jpg" alt="User image">
     </v-avatar>
     <v-toolbar-title v-if="$nuxt.$route.path === '/home'" class="mx-4">

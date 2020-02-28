@@ -6,7 +6,7 @@
     </h3>
     <v-form>
       <v-text-field
-        v-model="username"
+        v-model="loginDetails.userName"
         light
         label="Phone, email or username"
         placeholder=" "
@@ -18,7 +18,7 @@
       />
       <div class="mx-3">
         <v-text-field
-          v-model="password"
+          v-model="loginDetails.password"
           hint="Password"
           type="password"
           label="Password"
@@ -30,7 +30,14 @@
           hide-details
         />
       </div>
-      <v-btn depressed color="blue" min-height="50" rounded class="my-4 mx-3">
+      <v-btn
+        depressed
+        color="blue"
+        min-height="50"
+        rounded
+        class="my-4 mx-3"
+        @click="logIn()"
+      >
         Log in
       </v-btn>
     </v-form>
@@ -45,9 +52,31 @@
 export default {
   layout: 'empty',
   data: () => ({
-    username: '',
-    password: ''
-  })
+    error: '',
+    showLoader: false,
+    loginDetails: {
+      userEmail: '',
+      userName: '',
+      password: ''
+    }
+  }),
+  methods: {
+    logIn() {
+      this.showLoader = true;
+      this.$axios.post('/login', this.loginDetails).then((res) => {
+        localStorage.setItem('token', 'hello');
+        console.log(res);
+        console.log(localStorage.getItem('token'));
+        this.showLoader = false;
+        this.$router.push('/profile');
+      }).catch((err) => {
+        console.log(err.response);
+        const error = err.response.data;
+        this.showLoader = false;
+        this.error = error.message ? error.message : 'Oops, something went wrong';
+      });
+    }
+  }
 };
 </script>
 
