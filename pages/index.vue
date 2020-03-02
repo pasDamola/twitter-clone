@@ -130,6 +130,7 @@
 
 <script>
 export default {
+  middleware: 'isAuth',
   layout: 'empty',
   data: () => ({
     showLoader: false,
@@ -146,12 +147,14 @@ export default {
       this.showLoader = true;
       this.$axios.post('/login', this.loginDetails).then((res) => {
         this.$cookies.set('token', res.data.authentication, {
-          path: '/'
+          path: '/',
+          expires: new Date(new Date().setFullYear(new Date().getFullYear() + 2))
         });
         this.$axios.defaults.headers.common.Authorization = `Bearer ${res.data.authentication}`;
         this.showLoader = false;
         // this.$store.dispatch('authenticate');
         this.$router.push('/home');
+        // console.log('object');
       }).catch((err) => {
         const error = err.response.data;
         this.showLoader = false;

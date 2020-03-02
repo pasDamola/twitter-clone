@@ -3,7 +3,5 @@ export default function({ app, store, redirect }) {
   const token = app.$cookies.get('token');
   if (!token) {
     return redirect('/');
-  } else {
-    return redirect('/home');
   }
 }
