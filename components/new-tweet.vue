@@ -119,9 +119,8 @@ export default {
   methods: {
     createTweet() {
       const formData = new FormData();
-      for (let i = 0; i < this.files.length; i++) {
-         const file = this.files[i];
-      }
+      // console.log(this.files);
+      formData.append('tweetAttachments[]', ...this.files);
       formData.append('tweetBody', this.tweet);
       this.$axios.post('/tweet', formData,
         {
@@ -131,6 +130,7 @@ export default {
         }
 
       ).then((res) => {
+        this.$refs.textarea.textContent = '';
         this.$emit('fetchTweet');
       }).catch((err) => {
         console.log(err);
