@@ -18,7 +18,7 @@
         </v-btn>
         <img src="/icons/twitter.svg" alt="Twitter icon">
         <h3 class="text-left headline font-weight-bold text--black">
-          Create your account {{ showError }}
+          Create your account
         </h3>
         <v-alert v-model="showError" type="error" dismissible>
           {{ error }}
