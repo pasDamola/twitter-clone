@@ -16,13 +16,33 @@
         >
           <!-- <span /> -->
         </div>
+        <div v-for="(file, key) in files" :key="key" class="file-listing">
+          {{ file.name }}
+          <span class="remove-file" @click="removeFile(key)">
+            <v-icon color="blue">mdi-close</v-icon>
+          </span>
+        </div>
       </v-list-item-title>
       <v-list-item-subtitle>
         <v-layout>
           <v-layout class="actions">
-            <v-icon color="blue">
-              mdi-image
-            </v-icon>
+            <div class="custom-file">
+              <input
+                id="file"
+                ref="files"
+                type="file"
+                name=""
+                multiple
+                @change="handleFilesUpload()"
+              >
+              <label for="file" role="button">
+                <span class="file-icon">
+                  <v-btn icon rounded tabindex="-1">
+                    <v-icon color="blue">mdi-image</v-icon>
+                  </v-btn>
+                </span>
+              </label>
+            </div>
             <v-icon color="blue">
               mdi-gif
             </v-icon>
@@ -48,7 +68,14 @@
             <v-icon color="blue" size="32">
               mdi-plus-circle-outline
             </v-icon>
-            <v-btn class="ma-2 tweet" rounded color="blue" min-height="40" :disabled="getRemainingCount < 0">
+            <v-btn
+              class="ma-2 tweet"
+              rounded
+              color="blue"
+              min-height="40"
+              :disabled="getRemainingCount < 0"
+              @click="createTweet"
+            >
               Tweet
             </v-btn>
           </v-layout>
@@ -63,7 +90,8 @@ export default {
   layout: 'default',
   data: () => ({
     tweet: '',
-    tweetLength: 0
+    tweetLength: 0,
+    files: []
   }),
   computed: {
     getProgressColor() {
@@ -85,7 +113,38 @@ export default {
       return 160 - this.tweetLength;
     }
   },
+  mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
+  },
   methods: {
+    createTweet() {
+      const formData = new FormData();
+      for (let i = 0; i < this.files.length; i++) {
+         const file = this.files[i];
+      }
+      formData.append('tweetBody', this.tweet);
+      this.$axios.post('/tweet', formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+
+      ).then((res) => {
+        this.$emit('fetchTweet');
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    handleFilesUpload() {
+      const uploadedFiles = this.$refs.files.files;
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        this.files.push(uploadedFiles[i]);
+      }
+    },
+    removeFile(key) {
+      this.files.splice(key);
+    },
     handleKeyPress(e) {
       this.tweetLength = e.target.textContent.length;
       this.setEndOfContenteditable(e);
@@ -166,30 +225,6 @@ export default {
     justify-content: space-between;
   }
 
-  .v-text-field {
-    margin-top: 0;
-    padding-top: 0;
-    &--rounded::v-deep {
-      > .v-input__control {
-        > .v-input__slot {
-          padding: 0px;
-          > .v-text-field__slot {
-            ::placeholder {
-              font-size: 1.2rem;
-              color: #fff;
-              opacity: 0.6;
-              font-weight: 300;
-            }
-            ::after {
-              content: attr(data-end, 160);
-              color: red;
-            }
-          }
-        }
-      }
-    }
-  }
-
   .v-avatar.v-list-item__avatar {
     align-self: flex-start;
   }
@@ -211,4 +246,28 @@ export default {
     max-width: 100%;
     flex-grow: 0;
   }
+
+  .custom-file {
+    position: relative;
+    top: 10px;
+      cursor: pointer;
+      > input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+      }
+      [type="file"] + label {
+        padding: 8px 0px;
+        border-radius: 50%;
+      }
+      [type="file"]:focus + label,
+      [type="file"] + label:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      .file-icon * {
+        pointer-events: none;
+      }
+    }
 </style>

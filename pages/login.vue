@@ -1,12 +1,15 @@
 <template>
-  <v-layout column class="login" justify-center align-center>
+  <v-layout v-if="!showLoader" column class="login" justify-center align-center>
     <img src="/icons/twitter.svg" alt="Twitter icon">
     <h3 class="headline font-weight-bold text--black">
       Log in to Twitter
     </h3>
+    <v-alert v-model="showError" type="error" dismissible>
+      {{ error }}
+    </v-alert>
     <v-form>
       <v-text-field
-        v-model="username"
+        v-model="loginDetails.userName"
         light
         label="Phone, email or username"
         placeholder=" "
@@ -18,9 +21,10 @@
       />
       <div class="mx-3">
         <v-text-field
-          v-model="password"
+          v-model="loginDetails.password"
           hint="Password"
-          type="password"
+          :type="isPassword ? 'password' : 'text'"
+          :append-icon="isPassword ? 'mdi-eye' : 'mdi-eye-off'"
           label="Password"
           placeholder=" "
           light
@@ -28,9 +32,17 @@
           color="#1da1f2"
           background-color="rgb(245, 248, 250)"
           hide-details
+          @click:append="isPassword = !isPassword"
         />
       </div>
-      <v-btn depressed color="blue" min-height="50" rounded class="my-4 mx-3">
+      <v-btn
+        depressed
+        color="blue"
+        min-height="50"
+        rounded
+        class="my-4 mx-3"
+        @click="logIn()"
+      >
         Log in
       </v-btn>
     </v-form>
@@ -39,15 +51,51 @@
       <a href="/signup">Sign up for Twitter</a>
     </v-layout>
   </v-layout>
+  <v-layout v-else style="height: 100vh;" justify-center align-center>
+    <v-progress-circular
+      indeterminate
+      color="blue"
+      width="2"
+      size="45"
+    />
+  </v-layout>
 </template>
 
 <script>
+// import nuxtStorage from 'nuxt-storage';
 export default {
   layout: 'empty',
   data: () => ({
-    username: '',
-    password: ''
-  })
+    error: '',
+    isPassword: true,
+    showLoader: false,
+    showError: false,
+    loginDetails: {
+      userEmail: '',
+      userName: '',
+      password: ''
+    }
+  }),
+  methods: {
+    logIn() {
+      this.showLoader = true;
+      this.$axios.post('/login', this.loginDetails).then((res) => {
+        this.$cookies.set('token', res.data.authentication, {
+          path: '/',
+          expires: new Date(new Date().setFullYear(new Date().getFullYear() + 2))
+        });
+        this.$axios.defaults.headers.common.Authorization = `Bearer ${res.data.authentication}`;
+        this.showLoader = false;
+        this.$store.dispatch('authenticate');
+        this.$router.push('/home');
+      }).catch((err) => {
+        const error = err.response.data;
+        this.showLoader = false;
+        this.showError = true;
+        this.error = error.message ? error.message : 'Oops, something went wrong';
+      });
+    }
+  }
 };
 </script>
 

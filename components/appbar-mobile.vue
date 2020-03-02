@@ -8,17 +8,19 @@
     extension-height="2"
     app
   >
-    <v-avatar size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')">
+    <v-avatar v-show="$nuxt.$route.path == '/home'" size="35" class="hide-desktop" @click.stop="$emit('toggleDrawer')">
       <img src="https://randomuser.me/api/portraits/women/81.jpg" alt="User image">
     </v-avatar>
-    <v-toolbar-title v-if="$nuxt.$route.path === '/'" class="mx-4">
+    <v-toolbar-title v-if="$nuxt.$route.path === '/home'" class="mx-4">
       <h4>Home</h4>
     </v-toolbar-title>
     <v-toolbar-title v-else class="mx-4">
       <v-layout align-center>
-        <v-icon color="blue">
-          mdi-arrow-left
-        </v-icon>&nbsp;
+        <v-btn icon to="/home">
+          <v-icon color="blue">
+            mdi-arrow-left
+          </v-icon>
+        </v-btn>
         <v-list-item two-line>
           <v-list-item-content>
             <v-list-item-title><b>oyinD</b></v-list-item-title>

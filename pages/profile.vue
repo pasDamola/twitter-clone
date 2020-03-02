@@ -11,42 +11,56 @@
         <div class="profile-picture">
           <img :src="'https://cdn.vuetifyjs.com/images/john.jpg'" alt="">
         </div>
-          <v-btn
-            class="ma-2"
-            rounded
-            outlined
-            absolute
-            bottom
-            right
-            color="blue"
-          >
-            Edit Profile
-          </v-btn>
+        <v-btn
+          class="ma-2 edit-profile-btn"
+          rounded
+          outlined
+          absolute
+          bottom
+          right
+          color="blue"
+          @click="dialog = true"
+        >
+          Edit Profile
+        </v-btn>
       </v-layout>
-      <v-list color="black">
-        <v-list-item two-line>
+      <v-list color="black" class="mx-3">
+        <v-list-item two-line class="my-4">
           <v-list-item-content>
-            <v-list-item-title><b>oyinD</b></v-list-item-title>
-            <v-list-item-subtitle>@oyincode</v-list-item-subtitle>
+            <v-list-item-title><b>{{ userProfile.userfullname }}</b></v-list-item-title>
+            <v-list-item-subtitle>{{ userProfile.username }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item v-if="userProfile.bio">
           <v-list-item-content>
-            <v-list-item-title>Certified Blockchain Enthusiast</v-list-item-title>
+            <v-list-item-title>{{ userProfile.userbio }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title><v-icon>mdi-calendar</v-icon> Joined August 2017</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item class="font-weight-light caption">
+          <v-layout justify-start>
+            <v-list-item-content>
+              <v-list-item-title class="joined">
+                <v-icon color="rgba(255, 255, 255, 0.5)">
+                  mdi-calendar
+                </v-icon> Joined {{ userProfile.joined }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title class="joined">
+                <v-icon color="rgba(255, 255, 255, 0.5)">
+                  mdi-balloon
+                </v-icon> Joined {{ userProfile.joined }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-layout>
         </v-list-item>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>511 Following</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title>200 Followers</v-list-item-title>
-          </v-list-item-content>
+          <v-layout>
+            <p><b>{{ userProfile.followings }}</b> <span class="body-2 font-weight-light">Following</span></p>
+            <p class="mx-3">
+              <b>{{ userProfile.followers }}</b> <span class="body-2 font-weight-light">Followers</span>
+            </p>
+          </v-layout>
         </v-list-item>
       </v-list>
       <v-tabs v-model="tab" background-color="black" grow>
@@ -58,34 +72,52 @@
         <v-tab-item v-show="tab===0" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.dp"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===1" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.name"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===2" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.handle"
             :item="tweet"
           />
         </v-tab-item>
         <v-tab-item v-show="tab===3" color="black">
           <tweet
             v-for="tweet in tweets"
-            :key="tweet"
+            :key="tweet.tweet"
             :item="tweet"
           />
         </v-tab-item>
       </v-tabs-items>
       <v-divider />
     </v-list>
+    <v-dialog v-model="dialog" width="500" dark>
+      <v-layout class="edit-profile">
+        <v-toolbar color="black">
+          <v-btn icon>
+            <v-icon color="blue">
+              mdi-close
+            </v-icon>
+          </v-btn>
+          <v-toolbar-title class="font-weight-bold">
+            Edit Profile
+          </v-toolbar-title>
+          <v-spacer />
+          <v-btn rounded depressed color="blue" class="hidden-xs-only" dark>
+            Save
+          </v-btn>
+        </v-toolbar>
+      </v-layout>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -95,6 +127,7 @@ export default {
   components: { Tweet },
   layout: 'default',
   data: () => ({
+    dialog: false,
     tweets: [
       {
         name: 'S.S. Malgwi',
@@ -111,102 +144,69 @@ export default {
         shareClicked: false
       }
     ],
+    userProfile: {},
     tab: null,
     items: [
       'Tweets', 'Tweets & Replies', 'Media', 'Likes'
     ],
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ],
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
 
   }),
-  computed: {
-    getProgressColor() {
-      const textRemaining = 160 - this.tweetLength;
-      if (textRemaining >= 20) {
-        return 'blue';
-      } else if (textRemaining < 20 && textRemaining > 0) {
-        return 'yellow darken-1';
-      } else if (textRemaining < 1) {
-        return 'red';
-      } else {
-        return '#fff';
-      }
-    },
-    getTextProgress() {
-      return parseInt((this.tweetLength / 160) * 100);
-    },
-    getRemainingCount() {
-      return 160 - this.tweetLength;
-    }
-  },
-  methods: {
-    handleKeyPress(e) {
-      this.tweetLength = e.target.textContent.length;
-      this.setEndOfContenteditable(e);
-      if (e.target.textContent.length < 160) {
-        this.tweet = e.target.textContent;
-      } else {
-        e.preventDefault();
-        let span = document.querySelector('.textarea span');
-        if (!span) {
-          span = document.createElement('span');
-          e.target.appendChild(span);
-        }
-        span.style.background = 'red';
-        span.textContent = span.textContent + e.key;
-      }
-    },
-    handleCtrlKeyPress(e) {
-      this.tweetLength = e.target.textContent.length;
-      if (e.target.textContent.length < 160) {
-        this.tweet = e.target.textContent;
-      }
-    },
-    handlePaste(e) {
-      e.preventDefault();
-      const copiedText = e.clipboardData.getData('text/plain');
-      document.execCommand('inserttext', false, copiedText);
-    },
-    setEndOfContenteditable() {
-      const contentEditableElement = document.querySelector('.textarea');
-      let range, selection;
-      if (document.createRange) {
-        range = document.createRange();
-        range.selectNodeContents(contentEditableElement);
-        range.collapse(false);
-        selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-      } else if (document.selection) {
-        range = document.body.createTextRange();
-        range.moveToElementText(contentEditableElement);
-        range.collapse(false);
-        range.select();
-      }
-    }
+  mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
+    this.$axios.get('/viewProfile').then((res) => {
+      const month = new Date(res.data.created_at).getMonth();
+      const year = new Date(res.data.created_at).getFullYear();
+      const joined = `${this.monthNames[month]}, ${year}`;
+      this.userProfile = res.data;
+      this.userProfile.joined = joined;
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 };
 </script>
 
 <style lang="scss" scoped>
-    .cover-photo{
-        padding-left: 0;
-        padding-right: 0;
-        position: relative;
-        margin-bottom: 50px;
-    }
-    .profile-picture{
-        box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 2px inset;
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        border: 2px solid black;
-        position: absolute;
-        bottom: -80px;
-        left: 20px;
-        img {
-            width: 100%;
-            border-radius: 50%;
-        }
+  .cover-photo{
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .profile-picture{
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 2px inset;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid black;
+    position: absolute;
+    bottom: -50px;
+    left: 20px;
+    img {
+      width: 100%;
+      border-radius: 50%;
     }
 
+    @media screen and (min-width: 768px){
+      width: 140px;
+      height: 140px;
+      bottom: -70px;
+    }
+  }
+
+  .edit-profile {
+    background-color: black;
+  }
+
+  .edit-profile-btn {
+    bottom: -60px;
+  }
+  .joined, .body-2 {
+    font-size: 0.8rem !important;
+    color: rgba(255, 255, 255, 0.5);
+  }
 </style>
