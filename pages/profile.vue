@@ -208,12 +208,5 @@ export default {
             border-radius: 50%;
         }
     }
-<template>
-  <v-container />
-</template>
-<script>
-export default {
-};
-</script>
-<style>
+
 </style>
