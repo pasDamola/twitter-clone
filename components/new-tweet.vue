@@ -48,7 +48,14 @@
             <v-icon color="blue" size="32">
               mdi-plus-circle-outline
             </v-icon>
-            <v-btn class="ma-2 tweet" rounded color="blue" min-height="40" :disabled="getRemainingCount < 0">
+            <v-btn
+              class="ma-2 tweet"
+              rounded
+              color="blue"
+              min-height="40"
+              :disabled="getRemainingCount < 0"
+              @click="createTweet"
+            >
               Tweet
             </v-btn>
           </v-layout>
@@ -85,7 +92,17 @@ export default {
       return 160 - this.tweetLength;
     }
   },
+  mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
+  },
   methods: {
+    createTweet() {
+      this.$axios.post('/tweet', { tweetBody: this.tweet }).then((res) => {
+        this.$emit('fetchTweet');
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
     handleKeyPress(e) {
       this.tweetLength = e.target.textContent.length;
       this.setEndOfContenteditable(e);
@@ -164,30 +181,6 @@ export default {
     flex-grow: 0;
     width: 120px;
     justify-content: space-between;
-  }
-
-  .v-text-field {
-    margin-top: 0;
-    padding-top: 0;
-    &--rounded::v-deep {
-      > .v-input__control {
-        > .v-input__slot {
-          padding: 0px;
-          > .v-text-field__slot {
-            ::placeholder {
-              font-size: 1.2rem;
-              color: #fff;
-              opacity: 0.6;
-              font-weight: 300;
-            }
-            ::after {
-              content: attr(data-end, 160);
-              color: red;
-            }
-          }
-        }
-      }
-    }
   }
 
   .v-avatar.v-list-item__avatar {

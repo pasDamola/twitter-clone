@@ -51,13 +51,15 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/device'
+    '@nuxtjs/device',
+    'cookie-universal-nuxt'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: 'https://cryptic-ridge-07009.herokuapp.com/'
   },
   /*
   ** vuetify module configuration
