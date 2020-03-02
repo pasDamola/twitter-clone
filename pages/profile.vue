@@ -49,10 +49,15 @@
           <v-layout justify-start wrap>
             <span class="joined">
               <v-icon color="rgba(255, 255, 255, 0.5)">
+                mdi-map-marker
+              </v-icon> {{ userProfile.userlocation }}
+            </span>
+            <span class="joined mx-3">
+              <v-icon color="rgba(255, 255, 255, 0.5)">
                 mdi-calendar
               </v-icon> Joined {{ userProfile.joined }}
             </span>
-            <span class="joined mx-5">
+            <span class="joined mx-3">
               <v-icon color="rgba(255, 255, 255, 0.5)">
                 mdi-balloon
               </v-icon> Joined {{ userProfile.joined }}
@@ -272,7 +277,6 @@ export default {
         const year = new Date(res.data.created_at).getFullYear();
         const joined = `${this.monthNames[month]}, ${year}`;
         this.userProfile = res.data;
-        console.log(this.userProfile);
         // this.userEditDetails = res.data;
         this.userEditDetails.userFullName = this.userProfile.userfullname;
         this.userEditDetails.userBio = this.userProfile.userbio === 'null' ? '' : this.userProfile.userbio;
@@ -281,6 +285,8 @@ export default {
         this.userEditDetails.dp = this.userProfile.dp;
         this.userEditDetails.coverPhoto = this.userProfile.coverphoto;
         this.userProfile.joined = joined;
+        // Dispatch data to store
+        this.$store.dispatch('updateUser', this.userProfile);
       }).catch((err) => {
         console.log(err);
       });

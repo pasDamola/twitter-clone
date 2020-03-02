@@ -10,15 +10,28 @@
     <div class="nav">
       <v-list>
         <v-list-item>
-          <v-input
-            :hide-details="true"
-            class="twitter-search"
-          >
-            <v-icon slot="prepend" color="rgba(255, 255, 255, 0.5)">
-              mdi-magnify
-            </v-icon>
-            Search Twitter
-          </v-input>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-input
+                :hide-details="true"
+                class="twitter-search"
+                v-on="on"
+              >
+                <v-icon slot="prepend" color="rgba(255, 255, 255, 0.5)">
+                  mdi-magnify
+                </v-icon>
+                Search Twitter
+              </v-input>
+            </template>
+            <v-list color="black" class="elevated-list">
+              <v-list-item
+                v-for="(item, index) in 5"
+                :key="index"
+              >
+                <v-list-item-title>{{ item }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-list-item>
         <v-list-item>
           <v-list width="100%" color="rgb(30, 30, 30)" class="mt-5 trends">
@@ -242,5 +255,8 @@ export default {
     .divider {
       background-color: #1e1e1e;
     }
+  }
+  .elevated-list {
+    box-shadow: 0 4px 7px white;
   }
 </style>

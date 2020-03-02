@@ -147,7 +147,11 @@ export default {
         shareClicked: false
       }
     ],
-    tweetLength: 0
+    tweetLength: 0,
+    userProfile: {},
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ]
   }),
   computed: {
     getProgressColor() {
@@ -172,8 +176,22 @@ export default {
   mounted() {
     this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
     this.fetchTweets();
+    this.fetchProfile();
   },
   methods: {
+    fetchProfile() {
+      this.$axios.get('/viewProfile').then((res) => {
+        const month = new Date(res.data.created_at).getMonth();
+        const year = new Date(res.data.created_at).getFullYear();
+        const joined = `${this.monthNames[month]}, ${year}`;
+        this.userProfile = res.data;
+        this.userProfile.joined = joined;
+        // Dispatch data to store
+        this.$store.dispatch('updateUser', this.userProfile);
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
     fetchTweets() {
       this.$axios.get('/viewTweet').then((res) => {
         const tweets = [];

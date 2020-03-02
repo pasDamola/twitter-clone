@@ -1,7 +1,8 @@
 import nuxtStorage from 'nuxt-storage';
 
 export const state = () => ({
-  isAuthenticated: false
+  isAuthenticated: false,
+  user: {}
 });
 
 export const getters = {
@@ -13,6 +14,9 @@ export const getters = {
 export const mutations = {
   authenticate(state, payload) {
     state.isAuthenticated = payload;
+  },
+  updateUser(state, payload) {
+    state.user = payload;
   }
 };
 
@@ -24,5 +28,8 @@ export const actions = {
     } else {
       commit('authenticate', false);
     }
+  },
+  updateUser({ commit }, payload) {
+    commit('updateUser', payload);
   }
 };

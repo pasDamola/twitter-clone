@@ -1,7 +1,8 @@
 <template>
   <v-layout>
     <v-list-item-avatar>
-      <img src="https://pbs.twimg.com/profile_images/1197936225828691968/jL4Yv9GE_bigger.jpg" alt="">
+      <img v-if="$store.state.user.dp" :src="$store.state.user.dp" alt="">
+      <img v-else src="https://pbs.twimg.com/profile_images/1197936225828691968/jL4Yv9GE_bigger.jpg" alt="">
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>
