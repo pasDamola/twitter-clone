@@ -19,7 +19,6 @@ export const mutations = {
 export const actions = {
   authenticate({ commit }) {
     const token = nuxtStorage.localStorage.getData('token');
-    console.log(token);
     if (token) {
       commit('authenticate', true);
     } else {

@@ -29,10 +29,13 @@
         </div>
       </div>
       <div class="login-form">
+        <v-alert v-model="showError" type="error" dismissible>
+          {{ error }}
+        </v-alert>
         <v-form>
           <v-layout align-start justify-space-between class="mx-auto">
             <v-text-field
-              v-model="username"
+              v-model="loginDetails.userName"
               light
               label="Phone, username"
               placeholder=" "
@@ -44,7 +47,7 @@
             />
             <div class="mx-3">
               <v-text-field
-                v-model="password"
+                v-model="loginDetails.password"
                 hint="Password"
                 type="password"
                 label="Password"
@@ -57,8 +60,15 @@
               />
               <a href="">Forgot password?</a>
             </div>
-            <v-btn outlined color="blue" rounded class="my-3">
-              Log in
+            <v-btn outlined color="blue" rounded class="my-3" @click="logIn">
+              <v-progress-circular
+                v-if="showLoader"
+                indeterminate
+                color="blue"
+                width="2"
+                size="25"
+              />
+              {{ showLoader ? '' : 'Log in' }}
             </v-btn>
           </v-layout>
         </v-form>
@@ -122,9 +132,34 @@
 export default {
   layout: 'empty',
   data: () => ({
-    username: '',
-    password: ''
-  })
+    showLoader: false,
+    showError: false,
+    error: '',
+    loginDetails: {
+      userEmail: '',
+      userName: '',
+      password: ''
+    }
+  }),
+  methods: {
+    logIn() {
+      this.showLoader = true;
+      this.$axios.post('/login', this.loginDetails).then((res) => {
+        this.$cookies.set('token', res.data.authentication, {
+          path: '/'
+        });
+        this.$axios.defaults.headers.common.Authorization = `Bearer ${res.data.authentication}`;
+        this.showLoader = false;
+        // this.$store.dispatch('authenticate');
+        this.$router.push('/home');
+      }).catch((err) => {
+        const error = err.response.data;
+        this.showLoader = false;
+        this.showError = true;
+        this.error = error.message ? error.message : 'Oops, something went wrong';
+      });
+    }
+  }
 };
 </script>
 

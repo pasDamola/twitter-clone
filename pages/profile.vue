@@ -104,9 +104,13 @@
       <v-layout class="edit-profile">
         <v-toolbar color="black">
           <v-btn icon>
-            <v-icon color="blue">mdi-close</v-icon>
+            <v-icon color="blue">
+              mdi-close
+            </v-icon>
           </v-btn>
-          <v-toolbar-title class="font-weight-bold">Edit Profile</v-toolbar-title>
+          <v-toolbar-title class="font-weight-bold">
+            Edit Profile
+          </v-toolbar-title>
           <v-spacer />
           <v-btn rounded depressed color="blue" class="hidden-xs-only" dark>
             Save
