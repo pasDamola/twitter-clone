@@ -121,8 +121,12 @@ export default {
     createTweet() {
       const formData = new FormData();
       // console.log(this.files);
-      formData.append('tweetAttachments[]', ...this.files);
-      formData.append('tweetBody', this.tweet);
+      if (this.files.length > 0) {
+        formData.append('tweetAttachments[]', ...this.files);
+        formData.append('tweetBody', this.tweet);
+      } else {
+        formData.append('tweetBody', this.tweet);
+      }
       this.$axios.post('/tweet', formData,
         {
           headers: {

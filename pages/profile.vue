@@ -130,7 +130,7 @@
           <div class="banner">
             <v-overlay :value="true" :absolute="true" />
             <img v-if="!userProfile.coverPhoto" id="user-banner" src="https://pbs.twimg.com/profile_banners/1001052290042744832/1547111065" alt="">
-            <img v-else :src="userProfile.coverPhoto" id="user-banner" alt="">
+            <img v-else id="user-banner" :src="userProfile.coverPhoto" alt="">
             <div class="custom-file">
               <input id="banner" type="file" name="" @change="handleDp('user-banner', 'banner', $event)">
               <label for="banner" role="button">
@@ -146,7 +146,7 @@
             <v-avatar size="120">
               <v-overlay :value="true" :absolute="true" />
               <img v-if="!userProfile.dp" id="user-dp" src="https://pbs.twimg.com/profile_banners/1001052290042744832/1547111065" alt="">
-              <img v-else :src="userProfile.dp" id="user-dp" alt="">
+              <img v-else id="user-dp" :src="userProfile.dp" alt="">
               <div class="custom-file">
                 <input id="dp" type="file" name="" @change="handleDp('user-dp', 'dp', $event)">
                 <label for="dp" role="button">
