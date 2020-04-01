@@ -220,28 +220,14 @@
 </template>
 
 <script>
+
 import Tweet from '@/components/tweet';
 export default {
   components: { Tweet },
   layout: 'default',
   data: () => ({
     dialog: false,
-    tweets: [
-      {
-        name: 'S.S. Malgwi',
-        handle: '@santos__vito',
-        tweet: '2 years gone wow I still remember the events on that Sunday afternoon keep resting champ',
-        dp: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        message: false,
-        retweet: false,
-        heart: false,
-        share: false,
-        messageClicked: false,
-        retweetClicked: false,
-        heartClicked: false,
-        shareClicked: false
-      }
-    ],
+    tweets: [],
     name: '',
     bio: '',
     location: '',
@@ -269,6 +255,7 @@ export default {
   mounted() {
     this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
     this.fetchProfile();
+    this.fetchTweets();
   },
   methods: {
     fetchProfile() {
@@ -287,6 +274,33 @@ export default {
         this.userProfile.joined = joined;
         // Dispatch data to store
         this.$store.dispatch('updateUser', this.userProfile);
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    fetchTweets() {
+      this.$axios.get('/viewTweet').then((res) => {
+        const tweets = [];
+        console.log(res.data);
+        res.data.forEach((tweet) => {
+          const userTweet = {
+            name: tweet.userFullName,
+            handle: tweet.userName,
+            tweet: tweet.tweet.tweetinfo,
+            dp: tweet.dp ? tweet.dp : 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+            message: false,
+            retweet: false,
+            heart: false,
+            share: false,
+            messageClicked: false,
+            retweetClicked: false,
+            heartClicked: false,
+            shareClicked: false
+          };
+          // const divider = { divider: true };
+          tweets.push(userTweet);
+        });
+        this.tweets = tweets;
       }).catch((err) => {
         console.log(err);
       });

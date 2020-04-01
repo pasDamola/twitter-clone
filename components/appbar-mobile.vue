@@ -34,10 +34,6 @@
     <v-btn
       class="ma-2 edit-profile-btn"
       rounded
-      outlined
-      absolute
-      bottom
-      right
       color="blue"
       @click="logOut()"
     >
