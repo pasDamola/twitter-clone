@@ -31,5 +31,13 @@ export const actions = {
   },
   updateUser({ commit }, payload) {
     commit('updateUser', payload);
+  },
+  logout({ commit }) {
+    return new Promise((resolve) => {
+      commit('logout');
+      nuxtStorage.localStorage.clear();
+      delete this.$axios.defaults.headers.common.Authorization;
+      resolve();
+    });
   }
 };

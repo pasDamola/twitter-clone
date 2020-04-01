@@ -30,12 +30,38 @@
       </v-layout>
     </v-toolbar-title>
     <v-spacer />
-    <img src="/icons/top-tweet.svg" alt="Top trends">
+    <!-- <img src="/icons/top-tweet.svg" alt="Top trends"> -->
+    <v-btn
+      class="ma-2 edit-profile-btn"
+      rounded
+      outlined
+      absolute
+      bottom
+      right
+      color="blue"
+      @click="logOut()"
+    >
+      Logout
+    </v-btn>
     <template slot="extension" class="extension">
       <hr color="grey">
     </template>
   </v-app-bar>
 </template>
+<script>
+export default {
+  methods: {
+    logOut() {
+      this.$store
+        .dispatch('logout')
+        .then(() => {
+          this.$router.push('/login');
+        })
+        .catch(err => console.log(err));
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
   hr {
