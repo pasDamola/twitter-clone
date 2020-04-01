@@ -61,6 +61,10 @@ module.exports = {
   axios: {
     baseURL: 'https://cryptic-ridge-07009.herokuapp.com/'
   },
+
+  generate: {
+    fallback: true
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module

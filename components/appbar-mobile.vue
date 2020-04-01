@@ -23,7 +23,7 @@
         </v-btn>
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title><b>oyinD</b></v-list-item-title>
+            <v-list-item-title><b>{{ $store.state.user.username }}</b></v-list-item-title>
             <v-list-item-subtitle><b>604 Tweets</b></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
