@@ -96,16 +96,16 @@
         <v-divider class="divider" />
         <div
           v-for="item in follow"
-          :key="item.name"
+          :key="item.userfullname"
           class="list"
         >
           <v-list-item v-if="!item.divider" class="follow-list">
             <v-list-item-avatar>
-              <img :src="item.img" :alt="item.name">
+              <img :src="'https://cdn.vuetifyjs.com/images/lists/1.jpg'" :alt="item.name">
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-              <v-list-item-subtitle>{{ item.handle }}</v-list-item-subtitle>
+              <v-list-item-title>{{ item.userfullname }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item.username }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-btn class="ma-2" rounded outlined color="blue">
@@ -156,26 +156,11 @@ export default {
         tag: 'Politics'
       }
     ],
-    follow: [
-      {
-        name: 'E.J. Mason',
-        handle: '@codeabilty',
-        img: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'
-      },
-      { divider: true },
-      {
-        name: 'CNN',
-        handle: '@CNN',
-        img: 'https://cdn.vuetifyjs.com/images/lists/2.jpg'
-      },
-      { divider: true },
-      {
-        name: 'Marcy Sutton',
-        handle: '@marcysutton',
-        img: 'https://cdn.vuetifyjs.com/images/lists/3.jpg'
-      }
-    ]
+    follow: []
   }),
+  mounted() {
+    this.loadPeopleToBeFollowed();
+  },
   methods: {
     formatNumber(num) {
       if (typeof num === 'number') {
@@ -185,6 +170,12 @@ export default {
           return `${Math.sign(num) * ((Math.abs(num) / 10000).toFixed(1))}K`;
         }
       }
+    },
+    loadPeopleToBeFollowed() {
+      this.$axios.get('/allUsers').then((res) => {
+        console.log(res.data.splice(0, 3));
+        this.follow = res.data.splice(0, 3);
+      });
     }
   }
 };

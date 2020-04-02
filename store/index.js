@@ -2,7 +2,8 @@ import nuxtStorage from 'nuxt-storage';
 
 export const state = () => ({
   isAuthenticated: false,
-  user: {}
+  user: {},
+  peopleToBeFollowed: []
 });
 
 export const getters = {
