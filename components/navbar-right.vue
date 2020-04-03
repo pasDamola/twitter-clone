@@ -96,7 +96,7 @@
         <v-divider class="divider" />
         <div
           v-for="item in follow"
-          :key="item.userfullname"
+          :key="item.userid"
           class="list"
         >
           <v-list-item v-if="!item.divider" class="follow-list">
@@ -108,8 +108,23 @@
               <v-list-item-subtitle>{{ item.username }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-btn class="ma-2" rounded outlined color="blue">
+              <v-btn
+                v-if="!following"
+                class="ma-2"
+                rounded
+                outlined
+                color="blue"
+                @click="toFollow(item)"
+              >
                 Follow
+              </v-btn>
+              <v-btn
+                v-else
+                class="ma-2"
+                rounded
+                color="blue"
+              >
+                Following
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -156,9 +171,11 @@ export default {
         tag: 'Politics'
       }
     ],
-    follow: []
+    follow: [],
+    following: false
   }),
   mounted() {
+    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
     this.loadPeopleToBeFollowed();
   },
   methods: {
@@ -174,7 +191,16 @@ export default {
     loadPeopleToBeFollowed() {
       this.$axios.get('/allUsers').then((res) => {
         console.log(res.data.splice(0, 3));
-        this.follow = res.data.splice(0, 3);
+        this.follow = res.data;
+      });
+    },
+    toFollow(user) {
+      console.log(user.userid);
+      this.$axios.get('/CreateFollow', { params: { followingId: user.userid } }).then((res) => {
+        console.log(res.data);
+        this.following = true;
+      }).catch((error) => {
+        console.log(error);
       });
     }
   }
