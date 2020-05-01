@@ -264,6 +264,7 @@ export default {
         const year = new Date(res.data.created_at).getFullYear();
         const joined = `${this.monthNames[month]}, ${year}`;
         this.userProfile = res.data;
+        console.log(this.userProfile);
         // this.userEditDetails = res.data;
         this.userEditDetails.userFullName = this.userProfile.userfullname;
         this.userEditDetails.userBio = this.userProfile.userbio === 'null' ? '' : this.userProfile.userbio;

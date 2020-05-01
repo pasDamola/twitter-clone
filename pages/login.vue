@@ -1,5 +1,5 @@
 <template>
-  <v-layout v-if="!showLoader" column class="login" justify-center align-center>
+  <v-layout column class="login" justify-center align-center>
     <img src="/icons/twitter.svg" alt="Twitter icon">
     <h3 class="headline font-weight-bold text--black">
       Log in to Twitter
@@ -50,14 +50,6 @@
       <a href="">Forgot password?</a>
       <a href="/signup">Sign up for Twitter</a>
     </v-layout>
-  </v-layout>
-  <v-layout v-else style="height: 100vh;" justify-center align-center>
-    <v-progress-circular
-      indeterminate
-      color="blue"
-      width="2"
-      size="45"
-    />
   </v-layout>
 </template>
 

@@ -95,8 +95,8 @@
         </v-list-item>
         <v-divider class="divider" />
         <div
-          v-for="item in follow"
-          :key="item.userid"
+          v-for="(item, index) in follow"
+          :key="index"
           class="list"
         >
           <v-list-item v-if="!item.divider" class="follow-list">
@@ -109,22 +109,13 @@
             </v-list-item-content>
             <v-list-item-action>
               <v-btn
-                v-if="!following"
                 class="ma-2"
                 rounded
                 outlined
                 color="blue"
-                @click="toFollow(item)"
+                @click="toFollow(item.userid)"
               >
-                Follow
-              </v-btn>
-              <v-btn
-                v-else
-                class="ma-2"
-                rounded
-                color="blue"
-              >
-                Following
+                {{ buttonText }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -172,10 +163,15 @@ export default {
       }
     ],
     follow: [],
-    following: false
+    following: false,
+    buttonText: 'Follow'
   }),
+  computed: {
+    followed() {
+      return this.following;
+    }
+  },
   mounted() {
-    this.$axios.defaults.headers.common.Authorization = `Bearer ${this.$cookies.get('token')}`;
     this.loadPeopleToBeFollowed();
   },
   methods: {
@@ -189,18 +185,25 @@ export default {
       }
     },
     loadPeopleToBeFollowed() {
-      this.$axios.get('/allUsers').then((res) => {
-        console.log(res.data.splice(0, 3));
-        this.follow = res.data;
+      this.$axios.get('/suggestuser').then((res) => {
+        console.log(res.data.usersSuggest);
+        this.follow = res.data.usersSuggest;
       });
     },
-    toFollow(user) {
-      console.log(user.userid);
-      this.$axios.get('/CreateFollow', { params: { followingId: user.userid } }).then((res) => {
+    toFollow(userid) {
+      console.log(userid);
+      this.$axios.get('/CreateFollow', {
+        params: {
+          followingId: userid
+        }
+      }).then((res) => {
         console.log(res.data);
         this.following = true;
+        this.loadPeopleToBeFollowed();
       }).catch((error) => {
         console.log(error);
+        this.following = false;
+        this.buttonText = 'Follow';
       });
     }
   }

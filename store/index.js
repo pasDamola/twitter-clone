@@ -3,7 +3,8 @@ import nuxtStorage from 'nuxt-storage';
 export const state = () => ({
   isAuthenticated: false,
   user: {},
-  peopleToBeFollowed: []
+  peopleToBeFollowed: [],
+  followers: []
 });
 
 export const getters = {
@@ -18,6 +19,12 @@ export const mutations = {
   },
   updateUser(state, payload) {
     state.user = payload;
+  },
+  loadFollowers(state, payload) {
+    state.followers = payload;
+  },
+  loadPeopleToBeFollowed(state, payload) {
+    state.peopleToBeFollowed = payload;
   }
 };
 
@@ -32,6 +39,12 @@ export const actions = {
   },
   updateUser({ commit }, payload) {
     commit('updateUser', payload);
+  },
+  loadFollowers({ commit }, payload) {
+    commit('loadFollowers', payload);
+  },
+  loadPeopleToBeFollowed({ commit }, payload) {
+    commit('peopleToBeFollowed', payload);
   },
   logout({ commit }) {
     return new Promise((resolve) => {
